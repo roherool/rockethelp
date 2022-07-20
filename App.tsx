@@ -6,7 +6,7 @@ import {
 } from '@expo-google-fonts/roboto'
 
 import { Loading } from './src/components/Loading'
-import { Home } from './src/screens/Home'
+import { Register } from './src/screens/Register'
 
 import { THEME } from './src/styles/theme'
 
@@ -23,7 +23,7 @@ export default function App() {
         barStyle='light-content' 
         translucent 
       />
-      {fontsLoaded ? <Home /> : <Loading />}
+      {fontsLoaded ? <Register /> : <Loading />}
     </NativeBaseProvider>
   )
 }
