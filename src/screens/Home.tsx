@@ -20,7 +20,26 @@ import { Button } from '../components/Button';
 
 export function Home() {
   const [statusSelected, setStatusSelected] = useState<'open' | 'closed'>('open');
-  const [orders, setOrders] = useState<OrderProps[]>([]);
+  const [orders, setOrders] = useState<OrderProps[]>([
+    {
+      id: '123',
+      patrimony: '123456',
+      when: '18/07/2022 às 14:00',
+      status: 'open'
+    },
+    {
+      id: '124',
+      patrimony: '234567',
+      when: '19/07/2022 às 19:00',
+      status: 'closed'
+    },
+    {
+      id: '125',
+      patrimony: '345678',
+      when: '20/07/2022 às 16:00',
+      status: 'open'
+    }
+  ]);
 
   const navigation = useNavigation();
   const { colors } = useTheme();
@@ -58,10 +77,10 @@ export function Home() {
           w="full"
         >
           <Heading color="gray.100">
-            Meus chamados
+            Solicitações
           </Heading>
           <Text color="gray.200">
-            3
+            {orders.length}
           </Text>
         </HStack>
 
