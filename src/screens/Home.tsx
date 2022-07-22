@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import { 
   HStack, 
@@ -15,33 +16,17 @@ import {
 import { ChatTeardropText, SignOut } from 'phosphor-react-native';
 
 import Logo from '../assets/logo_secondary.svg'
+import { dateFormat } from '../utils/firestoreDateFormat';
 
 import { Filter } from '../components/Filter';
 import { Order, OrderProps } from '../components/Order';
 import { Button } from '../components/Button';
+import { Loading } from '../components/Loading';
 
 export function Home() {
+  const [isLoading, setIsLoading] = useState(true);
   const [statusSelected, setStatusSelected] = useState<'open' | 'closed'>('open');
-  const [orders, setOrders] = useState<OrderProps[]>([
-    {
-      id: '123',
-      patrimony: '123456',
-      when: '18/07/2022 às 14:00',
-      status: 'open'
-    },
-    {
-      id: '124',
-      patrimony: '234567',
-      when: '19/07/2022 às 19:00',
-      status: 'closed'
-    },
-    {
-      id: '125',
-      patrimony: '345678',
-      when: '20/07/2022 às 16:00',
-      status: 'open'
-    }
-  ]);
+  const [orders, setOrders] = useState<OrderProps[]>([]);
 
   const navigation = useNavigation();
   const { colors } = useTheme();
@@ -62,6 +47,32 @@ export function Home() {
         return Alert.alert('Sair', 'Não foi possível sair.');
       })
   }
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    const subscriber = firestore()
+      .collection('orders')
+      .where('status', '==', statusSelected)
+      .onSnapshot(snapshot => {
+        const data = snapshot.docs.map(doc => {
+          const { patrimony, description, status, created_at } = doc.data();
+
+          return {
+            id: doc.id,
+            patrimony,
+            description,
+            status,
+            when: dateFormat(created_at),
+          }
+        })
+
+        setOrders(data);
+        setIsLoading(false);
+      })
+
+      return subscriber;
+  }, [statusSelected]);
 
   return (
     <VStack flex={1} bg="gray.700" pb={6} >
@@ -114,29 +125,33 @@ export function Home() {
         />
         </HStack>
 
-        <FlatList 
-          data={orders}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => <Order data={item}
-            onPress={() => handleOpenDetails(item.id)}/>
-          }
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 100 }}
-          ListEmptyComponent={() => (
-            <Center>
-              <ChatTeardropText color={colors.gray[300]} size={40} />
-              <Text 
-                color="gray.300" 
-                fontSize="xl" 
-                mt={6} 
-                textAlign="center"
-              >
-                Você ainda não possui {'\n'}
-                solicitações {statusSelected === 'open' ? 'em andamento' : 'finalizadas'}
-              </Text>
-            </Center>
-          )}
-        />
+        {isLoading 
+          ? (<Loading /> ) 
+          : (
+            <FlatList 
+              data={orders}
+              keyExtractor={item => item.id}
+              renderItem={({ item }) => <Order data={item}
+                onPress={() => handleOpenDetails(item.id)}/>
+              }
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 100 }}
+              ListEmptyComponent={() => (
+                <Center>
+                  <ChatTeardropText color={colors.gray[300]} size={40} />
+                  <Text 
+                    color="gray.300" 
+                    fontSize="xl" 
+                    mt={6} 
+                    textAlign="center"
+                  >
+                    Você ainda não possui {'\n'}
+                    solicitações {statusSelected === 'open' ? 'em andamento' : 'finalizadas'}
+                  </Text>
+                </Center>
+              )}
+            />
+        )}
 
         <Button title="Nova solicitação" onPress={handleNewOrder}/>
       </VStack>

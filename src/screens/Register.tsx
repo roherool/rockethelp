@@ -18,7 +18,6 @@ const navigation = useNavigation();
 function handleNewOrderRegister() {
   if (!patrimony || !description) {
     return Alert.alert('Registrar', 'Preencha todos os campos.');
-
   }
 
   setIsLoading(true);
@@ -38,7 +37,7 @@ function handleNewOrderRegister() {
     .catch((error) => {
       console.log(error);
       setIsLoading(false);
-      return Alert.alert('Solicitação', 'Não foi possível o pedido.');
+      return Alert.alert('Solicitação', 'Não foi possível registrar o pedido.');
     })
 }
 
