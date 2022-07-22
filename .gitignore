@@ -89,6 +89,8 @@ build/
 local.properties
 *.iml
 *.hprof
+google-services.json
+GoogleService-Info.plist
 
 # node.js
 #
