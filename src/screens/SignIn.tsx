@@ -5,6 +5,7 @@ import { VStack, Heading, Icon, useTheme } from 'native-base'
 import { Envelope, Key } from 'phosphor-react-native'
 
 import Logo from '../assets/logo_primary.svg'
+
 import { Button } from '../components/Button';
 import { Input } from '../components/Input'
 
@@ -29,7 +30,7 @@ export function SignIn() {
         setIsLoading(false);
 
         if (error.code === 'auth/invalid-email') {
-          return Alert.alert('Entrar', 'E-mail inválido.');
+          return Alert.alert('Entrar', 'Informe e-mail válido.');
         }
 
         if (error.code === 'auth/wrong-password') {

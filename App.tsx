@@ -5,10 +5,10 @@ import {
   Roboto_700Bold,
 } from '@expo-google-fonts/roboto'
 
-import { Loading } from './src/components/Loading'
-import { Routes } from './src/routes';
-
 import { THEME } from './src/styles/theme'
+
+import { Routes } from './src/routes';
+import { Loading } from './src/components/Loading'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -19,8 +19,8 @@ export default function App() {
   return (
     <NativeBaseProvider theme={THEME}>
       <StatusBar 
-        backgroundColor="transparent" 
         barStyle='light-content' 
+        backgroundColor="transparent" 
         translucent 
       />
       {fontsLoaded ? <Routes /> : <Loading />}

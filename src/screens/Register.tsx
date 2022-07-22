@@ -43,21 +43,21 @@ function handleNewOrderRegister() {
 
   return (
     <VStack flex={1} bg="gray.600" p={6}>
-      <Header title="Nova solicitação" />
+      <Header title="Solicitação" />
 
       <Input 
-        mt={4}
         placeholder="Número do patrimônio"
         onChangeText={setPatrimony}
+        mt={4}
       />
 
       <Input
+        placeholder='Descrição do problema'
+        onChangeText={setDescription}
         flex={1}
         mt={5}
         multiline
         textAlignVertical="top"
-        placeholder='Descrição do problema'
-        onChangeText={setDescription}
       />
 
       <Button 

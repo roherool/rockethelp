@@ -15,13 +15,14 @@ import {
 } from 'native-base';
 import { ChatTeardropText, SignOut } from 'phosphor-react-native';
 
-import Logo from '../assets/logo_secondary.svg'
 import { dateFormat } from '../utils/firestoreDateFormat';
 
+import Logo from '../assets/logo_secondary.svg'
+
 import { Filter } from '../components/Filter';
-import { Order, OrderProps } from '../components/Order';
 import { Button } from '../components/Button';
 import { Loading } from '../components/Loading';
+import { Order, OrderProps } from '../components/Order';
 
 export function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -32,7 +33,7 @@ export function Home() {
   const { colors } = useTheme();
 
   function handleNewOrder() {
-    navigation.navigate('new')
+    navigation.navigate('new');
   }
 
   function handleOpenDetails(orderId: string) {
@@ -42,7 +43,7 @@ export function Home() {
   function handleLogout() {
     auth()
       .signOut()
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         return Alert.alert('Sair', 'Não foi possível sair.');
       })
@@ -54,7 +55,7 @@ export function Home() {
     const subscriber = firestore()
       .collection('orders')
       .where('status', '==', statusSelected)
-      .onSnapshot(snapshot => {
+      .onSnapshot((snapshot) => {
         const data = snapshot.docs.map(doc => {
           const { patrimony, description, status, created_at } = doc.data();
 
@@ -104,6 +105,7 @@ export function Home() {
           <Heading color="gray.100">
             Solicitações
           </Heading>
+
           <Text color="gray.200">
             {orders.length}
           </Text>
@@ -125,14 +127,16 @@ export function Home() {
         />
         </HStack>
 
-        {isLoading 
-          ? (<Loading /> ) 
-          : (
+        {
+          isLoading ? <Loading /> : 
             <FlatList 
               data={orders}
               keyExtractor={item => item.id}
-              renderItem={({ item }) => <Order data={item}
-                onPress={() => handleOpenDetails(item.id)}/>
+              renderItem={({ item }) => 
+                <Order 
+                  data={item}
+                  onPress={() => handleOpenDetails(item.id)}
+                />
               }
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{ paddingBottom: 100 }}
@@ -151,7 +155,7 @@ export function Home() {
                 </Center>
               )}
             />
-        )}
+        }
 
         <Button title="Nova solicitação" onPress={handleNewOrder}/>
       </VStack>
