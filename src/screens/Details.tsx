@@ -94,9 +94,7 @@ export function Details() {
 
   return (
     <VStack flex={1} bg="gray.700">
-      <Box bg="gray.700" px={6}>
-        <Header title="Solicitação"/>
-      </Box>
+      <Header title="Solicitação" px={6}/>
       
       <HStack bg="gray.500" justifyContent="center" p={4}>
         {

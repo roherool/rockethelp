@@ -1,4 +1,5 @@
 import { 
+  Box,
   Heading, 
   HStack, 
   IconButton, 
@@ -22,7 +23,7 @@ export function Header({ title, ...rest}: Props) {
 
   return (
     <HStack
-      alignItems="Center"
+      alignItems="center"
       bg="gray.600"
       justifyContent="space-between"
       pb={6}
@@ -30,20 +31,20 @@ export function Header({ title, ...rest}: Props) {
       w="full"
       {...rest}
     >
-      <IconButton 
-        icon={<CaretLeft color={colors.gray[200]} size={24} />} 
-        onPress={handleGoBack}
-      />
+        <IconButton
+          icon={<CaretLeft color={colors.gray[200]} size={24} />} 
+          onPress={handleGoBack}
+        />
 
-      <Heading 
-        color="gray.100"
-        flex={1}
-        fontSize="lg"
-        ml={-6}
-        textAlign="center"
-      >
-        {title}
-      </Heading>
+        <Heading 
+          color="gray.100"
+          flex={1}
+          ml={-12}
+          fontSize="lg"
+          textAlign="center"
+        >
+          {title}
+        </Heading>
     </HStack>
   );
 }
